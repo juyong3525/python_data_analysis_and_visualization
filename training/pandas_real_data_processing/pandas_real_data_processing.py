@@ -1,6 +1,7 @@
 # pandas 라이브러리로 실제 데이터 전처리하기 part.1
 # raw data 가져오기
 import pandas as pd
+import json
 PATH = "../../classData/COVID-19-master/csse_covid_19_data/all_csse_covid_19_daily_reports/"
 doc = pd.read_csv(PATH + "01-22-2020.csv", encoding='utf-8-sig')
 
@@ -30,3 +31,18 @@ test_df = pd.merge(doc, country_info, how='left', on='Country_Region')
 nan_rows = test_df[test_df['iso2'].isnull()]
 nan_rows = nan_rows[['Province_State_x', 'Country_Region', 'iso2']]
 # print(nan_rows.head())
+
+
+# pandas 라이브러리로 실제 데이터 전처리하기 part.2
+# 컬럼 값 변경하기
+def func(row):
+    if row['Country_Region'] in json_data:
+        row['Country_Region'] = json_data[row['Country_Region']]
+    return row
+
+
+with open('../../classData/COVID-19-master/csse_covid_19_data/country_convert.json', 'r', encoding='utf-8-sig') as json_file:
+    json_data = json.load(json_file)
+    # print(json_data.keys())
+    doc = doc.apply(func, axis=1)
+    print(doc.head())
