@@ -17,6 +17,7 @@ except:
 doc = doc.dropna(subset=['Confirmed'])
 doc = doc.astype({'Confirmed': 'int64'})
 # print(doc.head())
+# print(doc.groupby('Country_Region').sum())
 
 
 # 국가 정보 가져오기
@@ -45,4 +46,17 @@ with open('../../classData/COVID-19-master/csse_covid_19_data/country_convert.js
     json_data = json.load(json_file)
     # print(json_data.keys())
     doc = doc.apply(func, axis=1)
-    print(doc.head())
+    # print(doc.head())
+
+
+# pandas 라이브러리로 실제 데이터 전처리하기 part.3
+# 참고. 파일명으로 데이터 변환하기
+data = '01-22-2020.csv'
+date_column = data.split('.')[0].lstrip('0').replace('-', '/')
+doc.columns = ['Province_State', 'Country_Region', date_column]
+# print(doc.head())
+
+
+# 중복 데이터 합치기
+doc = doc.groupby('Country_Region').sum()
+print(doc)
