@@ -1,7 +1,9 @@
-# pandas 라이브러리로 실제 데이터 전처리하기 part.1
-# raw data 가져오기
 import pandas as pd
 import json
+
+
+# pandas 라이브러리로 실제 데이터 전처리하기 part.1
+# raw data 가져오기
 PATH = "../../classData/COVID-19-master/csse_covid_19_data/all_csse_covid_19_daily_reports/"
 doc = pd.read_csv(PATH + "01-22-2020.csv", encoding='utf-8-sig')
 
